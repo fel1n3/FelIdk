@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using FelIdk.Scripts.Entities.Player;
 using Godot;
@@ -80,7 +79,7 @@ public partial class Main : Node
     private async Task<Variant[]> traverse_nat(bool host,string? gamecode)
     {
         var playerHost = host ? "host" : "client";
-        var traversalId = $"{Multiplayer.GetUniqueId()}_{playerHost}";
+        var traversalId = $"{OS.GetUniqueId()}_{playerHost}";
         _holePunch.Call("start_traversal", gamecode, playerHost, traversalId);
         var result = await ToSignal(_holePunch, "hole_punched");
         await ToSignal(GetTree().CreateTimer(0.1), "timeout");
