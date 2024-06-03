@@ -1,27 +1,101 @@
-[gd_scene load_steps=4 format=3 uid="uid://c25sj2shum2ry"]
+[gd_scene load_steps=8 format=3 uid="uid://c25sj2shum2ry"]
 
-[ext_resource type="PackedScene" uid="uid://6l0ipcn8xfmd" path="res://Scenes/player.tscn" id="1_x3e58"]
+[ext_resource type="Script" path="res://Scripts/Main.cs" id="1_twinb"]
+[ext_resource type="Script" path="res://Scripts/GUI.cs" id="2_p2yqd"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_cuw6q"]
-size = Vector3(60, 2, 60)
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pqy4n"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_f28eu"]
-size = Vector3(60, 2, 60)
+[sub_resource type="Sky" id="Sky_sckan"]
+sky_material = SubResource("ProceduralSkyMaterial_pqy4n")
 
-[node name="Main" type="Node3D"]
+[sub_resource type="Environment" id="Environment_m600b"]
+background_mode = 2
+sky = SubResource("Sky_sckan")
+tonemap_mode = 2
+glow_enabled = true
 
-[node name="Ground" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+[sub_resource type="PlaneMesh" id="PlaneMesh_xnk7u"]
+size = Vector2(20, 20)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-shape = SubResource("BoxShape3D_cuw6q")
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_bqkae"]
+data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0, -10, 10, 0, -10)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-mesh = SubResource("BoxMesh_f28eu")
-skeleton = NodePath("../CollisionShape3D")
+[node name="Main" type="Node"]
+script = ExtResource("1_twinb")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_m600b")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.0214136, 0.999771, 0, -0.999771, 0.0214136, 0, 4.89174, 0)
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Player" parent="." instance=ExtResource("1_x3e58")]
+[node name="World" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World"]
+mesh = SubResource("PlaneMesh_xnk7u")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_bqkae")
+
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_p2yqd")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="GUI"]
+
+[node name="MainMenu" type="PanelContainer" parent="GUI/CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 417.0
+offset_top = 243.0
+offset_right = -417.0
+offset_bottom = -243.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GUI/CanvasLayer/MainMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/CanvasLayer/MainMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="GUI/CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HostButton" type="Button" parent="GUI/CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="GUI/CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join
+"
+
+[node name="AddressEntry" type="LineEdit" parent="GUI/CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Address"
+alignment = 1
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/player.tscn")
+spawn_path = NodePath("..")
+
+[connection signal="pressed" from="GUI/CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="GUI/CanvasLayer/MainMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]

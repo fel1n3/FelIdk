@@ -1,41 +1,53 @@
 using System;
 using Godot;
 
-public partial class Player : CharacterBody3D
+namespace FelIdk.Scripts.Entities.Player;
+
+public partial class Player : Entity
 {
-	[Export] public float Speed = 5.0f;
 	[Export] public float JumpVelocity = 4.5f;
 	[Export] public float MouseSens = 0.01f;
 	[Export] public float LerpValue = 0.15f;
-
-	// Get the gravity from the project settings to be synced with RigidBody nodes.
-	private readonly float _gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
-
+	
 	private SpringArm3D _springArm;
 	private Node3D _camPivot;
 	private Node3D _armature;
 	private AnimationTree _animationTree;
+	private Camera3D _camera;
+	
+	private readonly float _gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+
+	public override void _EnterTree()
+	{
+		SetMultiplayerAuthority(Name.ToString().ToInt());
+	}
+
 	public override void _Ready()
 	{
+		if (!IsMultiplayerAuthority()) return;
 		Input.MouseMode = Input.MouseModeEnum.Captured;
-
+		
+		_camera = GetNode<Camera3D>("CamPivot/SpringArm3D/Camera3D");
 		_springArm = GetNode<SpringArm3D>("CamPivot/SpringArm3D");
 		_camPivot = GetNode<Node3D>("CamPivot");
 		_armature = GetNode<Node3D>("Armature");
 		_animationTree = GetNode<AnimationTree>("AnimationTree");
+
+		_camera.Current = true;
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
+		if (!IsMultiplayerAuthority()) return;
+		
 		if (Input.IsActionJustPressed("quit"))
 			GetTree().Quit();
 
-		if (@event is InputEventMouseMotion ev)
-		{
-			_camPivot.RotateY(-ev.Relative.X * MouseSens);
-			_springArm.RotateX(-ev.Relative.Y * MouseSens);
-			_springArm.Rotation = _springArm.Rotation with {X = (float)Mathf.Clamp(_springArm.Rotation.X, -Math.PI / 4, Math.PI / 4)};
-		}
+		if (@event is not InputEventMouseMotion ev) return;
+		
+		_camPivot.RotateY(-ev.Relative.X * MouseSens);
+		_springArm.RotateX(-ev.Relative.Y * MouseSens);
+		_springArm.Rotation = _springArm.Rotation with {X = (float)Mathf.Clamp(_springArm.Rotation.X, -Math.PI / 4, Math.PI / 4)};
 	}
 	public override void _PhysicsProcess(double delta)
 	{
