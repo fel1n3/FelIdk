@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://c25sj2shum2ry"]
+[gd_scene load_steps=7 format=3 uid="uid://c25sj2shum2ry"]
 
-[ext_resource type="Script" path="res://Scripts/Main.cs" id="1_twinb"]
-[ext_resource type="Script" path="res://Scripts/GUI.cs" id="2_p2yqd"]
+[ext_resource type="Script" path="res://Scripts/Main.cs" id="1_g5mpj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pqy4n"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -23,7 +22,7 @@ size = Vector2(20, 20)
 data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0, -10, 10, 0, -10)
 
 [node name="Main" type="Node"]
-script = ExtResource("1_twinb")
+script = ExtResource("1_g5mpj")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_m600b")
@@ -47,7 +46,6 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("2_p2yqd")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="GUI"]
 

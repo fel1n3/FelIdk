@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace FelIdk.Scripts.Entities;
+namespace FelIdk.Game.Scripts.Entities;
 
 public abstract partial class Entity : CharacterBody3D
 {

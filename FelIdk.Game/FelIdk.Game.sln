@@ -1,0 +1,27 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FelIdk", "FelIdk.Game.csproj", "{D6F630B8-4AD9-4314-BE31-5AC7EC10F9BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FelIdk.DatabaseLib", "..\FelIdk.DatabaseLib\FelIdk.DatabaseLib.csproj", "{3358B34A-C711-44F7-BAD1-6A91836C3B09}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6F630B8-4AD9-4314-BE31-5AC7EC10F9BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F630B8-4AD9-4314-BE31-5AC7EC10F9BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F630B8-4AD9-4314-BE31-5AC7EC10F9BB}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{D6F630B8-4AD9-4314-BE31-5AC7EC10F9BB}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{D6F630B8-4AD9-4314-BE31-5AC7EC10F9BB}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{D6F630B8-4AD9-4314-BE31-5AC7EC10F9BB}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{3358B34A-C711-44F7-BAD1-6A91836C3B09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3358B34A-C711-44F7-BAD1-6A91836C3B09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3358B34A-C711-44F7-BAD1-6A91836C3B09}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3358B34A-C711-44F7-BAD1-6A91836C3B09}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{3358B34A-C711-44F7-BAD1-6A91836C3B09}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{3358B34A-C711-44F7-BAD1-6A91836C3B09}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+EndGlobal

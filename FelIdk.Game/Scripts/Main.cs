@@ -1,12 +1,11 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using FelIdk.Scripts.Abilities;
-using FelIdk.Scripts.Entities.Player;
+using FelIdk.DatabaseLib.Models;
+using FelIdk.Game.Scripts.Entities.Player;
 using Godot;
 
-namespace FelIdk.Scripts;
+namespace FelIdk.Game.Scripts;
 
 public partial class Main : Node
 {
@@ -35,6 +34,13 @@ public partial class Main : Node
          public float Cooldown { get; set; }
          public bool Channel { get; set; }
          public Target Target { get; set; }*/
+         using var db = new GameContext();
+         db.Add(new Ability
+         {
+             Id = 0,
+             Name = "Fireball"
+         });
+         db.SaveChanges();
     }
 
     private void _on_singleplayer_button_pressed()

@@ -1,7 +1,7 @@
 using System;
 using Godot;
 
-namespace FelIdk.Scripts.Entities.Player;
+namespace FelIdk.Game.Scripts.Entities.Player;
 
 public partial class Player : Entity
 {

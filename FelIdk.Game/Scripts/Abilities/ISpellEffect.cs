@@ -1,4 +1,4 @@
-﻿namespace FelIdk.Scripts.Abilities;
+﻿namespace FelIdk.Game.Scripts.Abilities;
 
 public enum Target
 {
