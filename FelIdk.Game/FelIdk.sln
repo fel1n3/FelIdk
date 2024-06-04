@@ -2,6 +2,8 @@
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FelIdk", "FelIdk.csproj", "{5D6789E2-3E2A-4ECC-B674-3E972106FBFF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLib", "ClassLib\ClassLib.csproj", "{1DA29C22-F1E9-4CEC-A806-9DA7D8E7A1A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 	Debug|Any CPU = Debug|Any CPU
@@ -15,5 +17,11 @@ Global
 		{5D6789E2-3E2A-4ECC-B674-3E972106FBFF}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{5D6789E2-3E2A-4ECC-B674-3E972106FBFF}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{5D6789E2-3E2A-4ECC-B674-3E972106FBFF}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{1DA29C22-F1E9-4CEC-A806-9DA7D8E7A1A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA29C22-F1E9-4CEC-A806-9DA7D8E7A1A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DA29C22-F1E9-4CEC-A806-9DA7D8E7A1A2}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA29C22-F1E9-4CEC-A806-9DA7D8E7A1A2}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{1DA29C22-F1E9-4CEC-A806-9DA7D8E7A1A2}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA29C22-F1E9-4CEC-A806-9DA7D8E7A1A2}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

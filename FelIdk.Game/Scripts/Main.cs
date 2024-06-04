@@ -1,6 +1,8 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using FelIdk.Scripts.Abilities;
 using FelIdk.Scripts.Entities.Player;
 using Godot;
 
@@ -25,6 +27,26 @@ public partial class Main : Node
          _holePunch.Set("rendevouz_address", "172.188.81.201");
          _holePunch.Set("rendevouz_port", 3000);
          AddChild(_holePunch);
+
+         
+         /*Name { get; set; }
+         public int Id { get; set; }
+         public float Potency { get; set; }
+         public float Cooldown { get; set; }
+         public bool Channel { get; set; }
+         public Target Target { get; set; }*/
+    }
+
+    private void _on_singleplayer_button_pressed()
+    {
+        _mainMenu.Hide();
+        
+        _enetPeer.CreateServer(3000,2);
+        Multiplayer.MultiplayerPeer = _enetPeer;
+        Multiplayer.PeerConnected += add_player;
+        Multiplayer.PeerDisconnected += remove_player;
+        
+        add_player(Multiplayer.GetUniqueId());
     }
 
     private async void _on_host_button_pressed()
@@ -76,7 +98,7 @@ public partial class Main : Node
         return new string(Enumerable.Range(1, 5).Select(_ => chars[rand.Next(chars.Length)]).ToArray());
     }
 
-    private async Task<Variant[]> traverse_nat(bool host,string? gamecode)
+    private async Task<Variant[]> traverse_nat(bool host,string gamecode)
     {
         var playerHost = host ? "host" : "client";
         var traversalId = $"{OS.GetUniqueId()}_{playerHost}";
