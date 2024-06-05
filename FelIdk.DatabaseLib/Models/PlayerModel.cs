@@ -3,14 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FelIdk.DatabaseLib.Models;
 
-public enum Target
-{
-    HOSTILE,
-    FRIENDLY,
-    AOE
-}
-
-public class Ability
+public class PlayerModel
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key]
@@ -18,9 +11,7 @@ public class Ability
 
     [MaxLength(50)]
     public string Name { get; init; }
-    public float Potency { get; init; }
-    public float Cooldown { get; init; }
-    public bool Channel { get; init; }
-    public Target Target { get; init; }
-    
+
+    public virtual ICollection<int> Spellbook { get; set; }
+
 }

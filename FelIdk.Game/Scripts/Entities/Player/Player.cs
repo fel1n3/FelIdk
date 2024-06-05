@@ -40,8 +40,7 @@ public partial class Player : Entity
 	{
 		if (!IsMultiplayerAuthority()) return;
 		
-		if (Input.IsActionJustPressed("quit"))
-			GetTree().Quit();
+		if (Input.IsActionJustPressed("quit")) GetTree().Quit();
 
 		if (@event is not InputEventMouseMotion ev) return;
 		
@@ -51,6 +50,7 @@ public partial class Player : Entity
 	}
 	public override void _PhysicsProcess(double delta)
 	{
+		if (!IsMultiplayerAuthority()) return;
 		Vector3 velocity = Velocity;
 		
 		if (!IsOnFloor())
@@ -76,7 +76,7 @@ public partial class Player : Entity
 			velocity.X = Mathf.Lerp(velocity.X, 0.0f, LerpValue);
 			velocity.Z = Mathf.Lerp(velocity.Z, 0.0f, LerpValue);
 		}
-		
+
 		_animationTree.Set("parameters/BlendSpace1D/blend_position", velocity.Length() / Speed);
 
 		Velocity = velocity;

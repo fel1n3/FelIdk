@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using FelIdk.DatabaseLib.Models;
 using FelIdk.Game.Scripts.Entities.Player;
 using Godot;
 
@@ -10,6 +9,7 @@ namespace FelIdk.Game.Scripts;
 public partial class Main : Node
 {
     private readonly PackedScene _player = ResourceLoader.Load<PackedScene>("res://Scenes/player.tscn");
+    private readonly PackedScene _lobby = ResourceLoader.Load<PackedScene>("res://Scenes/lobby.tscn");
     private static readonly GDScript HolePunchScript = GD.Load<GDScript>("res://addons/Holepunch/holepunch_node.gd");
     
     private ENetMultiplayerPeer _enetPeer = new ENetMultiplayerPeer();
@@ -34,18 +34,27 @@ public partial class Main : Node
          public float Cooldown { get; set; }
          public bool Channel { get; set; }
          public Target Target { get; set; }*/
-         using var db = new GameContext();
-         db.Add(new Ability
+         //using var db = new GameContext();
+         /*db.Add(new Ability
          {
-             Id = 0,
-             Name = "Fireball"
+             Name = "Fireball",
+             Potency = 100f,
+             Cooldown = 60f,
+             Channel = false,
+             Target = Target.HOSTILE
          });
          db.SaveChanges();
+         var fireball = db.Abilities.Single(b => b.Name == "Fireball");
+         var player = db.Players.Single(b => b.Name == "Riley");
+         player.Spellbook.Add(
+             fireball.Id);
+         db.SaveChanges();
+         GD.Print(fireball," : ",player);*/
     }
 
     private void _on_singleplayer_button_pressed()
     {
-        _mainMenu.Hide();
+        _mainMenu.QueueFree();
         
         _enetPeer.CreateServer(3000,2);
         Multiplayer.MultiplayerPeer = _enetPeer;
@@ -57,10 +66,13 @@ public partial class Main : Node
 
     private async void _on_host_button_pressed()
     {
-        _mainMenu.Hide();
-
+        _mainMenu.QueueFree();
+        var lobby = _lobby.Instantiate();
+        AddChild(lobby);
+        
         var gameCode = generate_room_code();
-        GD.Print(gameCode);
+        lobby.GetNode<Label>("CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/GameCode").Text = gameCode;
+        
         var result = await traverse_nat(true,gameCode);
 
         var _myPort = result[0];
@@ -75,7 +87,7 @@ public partial class Main : Node
  
     private async void _on_join_button_pressed()
     {
-        _mainMenu.Hide();
+        _mainMenu.QueueFree();
 
         var result = await traverse_nat(false, _addressEntry.Text);
         
@@ -87,9 +99,15 @@ public partial class Main : Node
 
     private void add_player(long peerId)
     {
+        
         var player = _player.Instantiate();
         player.Name = peerId.ToString();
         AddChild(player);
+        
+        if (peerId == Multiplayer.GetUniqueId()) return;
+        
+        var lobby = GetNode<Control>("Lobby");
+        lobby.QueueFree();
     }
     private void remove_player(long peerId)
     {
